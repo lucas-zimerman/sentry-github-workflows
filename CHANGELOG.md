@@ -2,85 +2,11 @@
 
 ## Unreleased
 
-### Fixes
+### Dependencies
 
-- Updater - Fix boolean input handling for `changelog-entry` parameter and add input validation ([#127](https://github.com/getsentry/github-workflows/pull/127))
-
-## 3.0.0
-
-### Breaking Changes
-
-- Updater: The default value for `pr-strategy` has been changed from `create` to `update`. ([#124](https://github.com/getsentry/github-workflows/pull/124))
-  This change means the updater will now maintain a single PR that gets updated with new dependency versions (instead of creating separate PRs for each version).
-  If you want to preserve the previous behavior of creating separate PRs, explicitly set `pr-strategy: create` in your workflow:
-
-  ```yaml
-  - uses: getsentry/github-workflows/updater@v3
-    with:
-      # ... other inputs ...
-      pr-strategy: create  # Add this to preserve previous behavior
-  ```
-
-  In case you have existing open PRs created with the `create` strategy, you will need to remove these old branches
-  manually as the new name would be a prefix of the old PRs, which git doesnt' allow.
-
-- Updater and Danger reusable workflows are now composite actions ([#114](https://github.com/getsentry/github-workflows/pull/114))
-
-  To update your existing Updater workflows:
-  ```yaml
-  ### Before
-    native:
-      uses: getsentry/github-workflows/.github/workflows/updater.yml@v2
-      with:
-        path: scripts/update-sentry-native-ndk.sh
-        name: Native SDK
-      secrets:
-        # If a custom token is used instead, a CI would be triggered on a created PR.
-        api-token: ${{ secrets.CI_DEPLOY_KEY }}
-
-  ### After
-    native:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: getsentry/github-workflows/updater@v3
-          with:
-            path: scripts/update-sentry-native-ndk.sh
-            name: Native SDK
-            api-token: ${{ secrets.CI_DEPLOY_KEY }}
-  ```
-
-  To update your existing Danger workflows:
-  ```yaml
-  ### Before
-    danger:
-      uses: getsentry/github-workflows/.github/workflows/danger.yml@v2
-
-  ### After
-    danger:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: getsentry/github-workflows/danger@v3
-  ```
-
-### Features
-
-- Updater now supports targeting non-default branches via the new `target-branch` input parameter ([#118](https://github.com/getsentry/github-workflows/pull/118))
-- Updater now supports filtering releases by GitHub release title patterns, e.g. to support release channels ([#117](https://github.com/getsentry/github-workflows/pull/117))
-- Updater now supports dependencies without changelog files by falling back to git commit messages ([#116](https://github.com/getsentry/github-workflows/pull/116))
-- Danger - Improve conventional commit scope handling, and non-conventional PR title support ([#105](https://github.com/getsentry/github-workflows/pull/105))
-- Add Proguard artifact endpoint for Android builds in sentry-server ([#100](https://github.com/getsentry/github-workflows/pull/100))
-- Updater - Add CMake FetchContent support for automated dependency updates ([#104](https://github.com/getsentry/github-workflows/pull/104))
-
-### Security
-
-- Updater - Prevent script injection vulnerabilities through workflow inputs ([#98](https://github.com/getsentry/github-workflows/pull/98))
-
-### Fixes
-
-- Updater - Fix null reference error when changelog has no existing bullet points ([#125](https://github.com/getsentry/github-workflows/pull/125))
-- Updater - Fix bullet-point resolution when plain text precedes bullet points ([#123](https://github.com/getsentry/github-workflows/pull/123))
-- Improve changelog generation for non-tagged commits and edge cases ([#115](https://github.com/getsentry/github-workflows/pull/115))
-- Use GITHUB_WORKFLOW_REF instead of _workflow_version input parameter to automatically determine workflow script versions ([#109](https://github.com/getsentry/github-workflows/pull/109))
+- Bump Workflow args test script from latest to v3 ([#3](https://github.com/lucas-zimerman/sentry-github-workflows/pull/3))
+  - [changelog](https://github.com/getsentry/github-workflows/blob/main/CHANGELOG.md#v3)
+  - [diff](https://github.com/getsentry/github-workflows/compare/latest...v3)
 
 ## 2.13.1
 
