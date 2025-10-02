@@ -41,6 +41,9 @@ jobs:
         id: danger
         run: |
           docker run \
+            --rm \
+            --interactive \
+            --tty \
             --volume ${{ github.workspace }}:/github/workspace \
             --volume ${{ runner.temp }}:${{ runner.temp }} \
             --workdir /github/workspace \
@@ -51,4 +54,4 @@ jobs:
             -e EXTRA_DANGERFILE_INPUT="${{ inputs.extra-dangerfile }}" \
             -e RUNNER_TEMP="${{ runner.temp }}" \
             ghcr.io/danger/danger-js:11.3.1 \
-            --failOnErrors --dangerfile ${{ runner.temp }}/dangerfile.js
+            --verbose --failOnErrors --dangerfile ${{ runner.temp }}/dangerfile.js
