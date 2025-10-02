@@ -43,7 +43,6 @@ jobs:
           docker run \
             --rm \
             --interactive \
-            --tty \
             --volume ${{ github.workspace }}:/github/workspace \
             --volume ${{ runner.temp }}:${{ runner.temp }} \
             --workdir /github/workspace \
