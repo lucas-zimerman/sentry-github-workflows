@@ -89,7 +89,7 @@ Runs DangerJS on Pull Reqeusts in your repository. This uses custom set of rules
 
 ### Extra Dangerfile Support
 
-You can provide an additional dangerfile to run custom checks after the main ones by using the `extra-dangerfile` input.
+You can provide an additional dangerfile to run custom checks after the main ones by using the `extra-dangerfile` input. The workflow will automatically download this file from your repository before running it.
 
 ```yaml
 name: Danger

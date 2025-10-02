@@ -29,6 +29,13 @@ jobs:
       - name: Download dangerfile.js
         run: wget https://raw.githubusercontent.com/lucas-zimerman/sentry-github-workflows/refs/heads/lz/ext-danger/danger/dangerfile.js -P ${{ runner.temp }}
 
+      - name: Download external dangerfile (if provided)
+        if: inputs.extra-dangerfile
+        run: |
+          # Download the external dangerfile from the calling repository
+          wget "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.head_ref || github.ref_name }}/${{ inputs.extra-dangerfile }}" -P ${{ runner.temp }}
+          echo "Downloaded external dangerfile: ${{ inputs.extra-dangerfile }}"
+
       # Using a pre-built docker image in GitHub container registry instaed of NPM to reduce possible attack vectors.
       - name: Run DangerJS
         id: danger
@@ -42,5 +49,6 @@ jobs:
             -e GITHUB_TOKEN="${{ github.token }}" \
             -e DANGER_DISABLE_TRANSPILATION="true" \
             -e EXTRA_DANGERFILE_INPUT="${{ inputs.extra-dangerfile }}" \
+            -e RUNNER_TEMP="${{ runner.temp }}" \
             ghcr.io/danger/danger-js:11.3.1 \
             --failOnErrors --dangerfile ${{ runner.temp }}/dangerfile.js

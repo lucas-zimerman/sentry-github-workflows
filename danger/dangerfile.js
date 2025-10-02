@@ -190,8 +190,14 @@ async function checkActionsArePinned() {
 
 async function CheckFromExternalChecks() {
   // Get the external dangerfile path from environment variable (passed via workflow input)
-  // Priority: EXTRA_DANGERFILE (absolute path) -> EXTRA_DANGERFILE_INPUT (relative path)
-  const customPath = process.env.EXTRA_DANGERFILE || process.env.EXTRA_DANGERFILE_INPUT;
+  // When running in Docker, the file is downloaded to runner temp directory
+  let customPath = process.env.EXTRA_DANGERFILE || process.env.EXTRA_DANGERFILE_INPUT;
+  
+  // If running in Docker (CI environment), prepend the temp directory to relative paths
+  if (process.env.CI && process.env.RUNNER_TEMP && customPath && !customPath.startsWith('/')) {
+    customPath = `${process.env.RUNNER_TEMP}/${customPath}`;
+  }
+  
   console.log(`::debug:: Checking from external checks: ${customPath}`);
   if (customPath) {
     try {
