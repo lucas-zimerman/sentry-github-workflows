@@ -87,6 +87,10 @@ jobs:
 
 Runs DangerJS on Pull Reqeusts in your repository. This uses custom set of rules defined in [this dangerfile](danger/dangerfile.js).
 
+### Extra Dangerfile Support
+
+You can provide an additional dangerfile to run custom checks after the main ones by using the `extra-dangerfile` input.
+
 ```yaml
 name: Danger
 
@@ -97,4 +101,6 @@ on:
 jobs:
   danger:
     uses: getsentry/github-workflows/.github/workflows/danger.yml@v2
+    with:
+      extra-dangerfile: "scripts/check-replay-stubs.js"  # Optional: path to additional dangerfile
 ```

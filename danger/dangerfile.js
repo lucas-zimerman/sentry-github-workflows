@@ -189,8 +189,10 @@ async function checkActionsArePinned() {
 }
 
 async function CheckFromExternalChecks() {
-  console.log(`::debug:: Checking from external checks: ${process.env.EXTRA_DANGERFILE}`);
-  const customPath = process.env.EXTRA_DANGERFILE;
+  // Get the external dangerfile path from environment variable (passed via workflow input)
+  // Priority: EXTRA_DANGERFILE (absolute path) -> EXTRA_DANGERFILE_INPUT (relative path)
+  const customPath = process.env.EXTRA_DANGERFILE || process.env.EXTRA_DANGERFILE_INPUT;
+  console.log(`::debug:: Checking from external checks: ${customPath}`);
   if (customPath) {
     try {
       const extraModule = require(customPath);
