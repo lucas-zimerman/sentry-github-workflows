@@ -188,10 +188,36 @@ async function checkActionsArePinned() {
   }
 }
 
+async function CheckFromExternalChecks() {
+  console.log(`::debug:: Checking from external checks: ${process.env.EXTRA_DANGERFILE}`);
+  const customPath = process.env.EXTRA_DANGERFILE;
+  if (customPath) {
+    try {
+      const extraModule = require(customPath);
+
+      if (typeof extraModule === "function") {
+        await extraModule({
+          fail: fail, 
+          warn: warn,
+          message: message, 
+          markdown: markdown,
+          danger: danger,
+        });
+
+      } else if (extraModule.default && typeof extraModule.default === "function") {
+        await extraModule.default();
+      }
+    } catch (err) {
+      warn(`Could not load custom Dangerfile: ${customPath}\n${err}`);
+    }
+  }
+}
+
 async function checkAll() {
   await checkDocs();
   await checkChangelog();
   await checkActionsArePinned();
+  await CheckFromExternalChecks();
 }
 
 schedule(checkAll);
