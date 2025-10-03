@@ -213,7 +213,7 @@ async function CheckFromExternalChecks() {
   //  customPath = `${process.env.RUNNER_TEMP}/${customPath}`;
   //}
   
-  warn(`::debug:: Checking from external checks: ${customPath}`);
+  console.log(`::debug:: Checking from external checks: ${customPath}`);
   if (customPath) {
     try {
       const extraModule = require(customPath);
