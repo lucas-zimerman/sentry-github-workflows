@@ -190,7 +190,19 @@ async function checkActionsArePinned() {
 
 async function CheckFromExternalChecks() {
   //warn(JSON.stringify(danger.github));
-  const path = require('path');
+  
+  let path;
+  try {
+    path = require('path');
+  } catch (error) {
+    warn(`Failed to load path module: ${error.message}`);
+    return;
+  }
+  
+  if (!path) {
+    warn('path module is not available');
+    return;
+  }
 
   // Get the external dangerfile path from environment variable (passed via workflow input)
   // When running in Docker, the file is downloaded to runner temp directory
