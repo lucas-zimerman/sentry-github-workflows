@@ -52,5 +52,5 @@ jobs:
             -e DANGER_DISABLE_TRANSPILATION="true" \
             -e EXTRA_DANGERFILE_INPUT="${{ inputs.extra-dangerfile }}" \
             -e RUNNER_TEMP="${{ runner.temp }}" \
-            ghcr.io/danger/danger-js:11.3.1 \
+            ghcr.io/danger/danger-js:13.0.1 \
             --verbose --failOnErrors --dangerfile ${{ runner.temp }}/dangerfile.js
