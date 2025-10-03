@@ -189,7 +189,9 @@ async function checkActionsArePinned() {
 }
 
 async function CheckFromExternalChecks() {
-  warn(JSON.stringify(danger.github));
+  //warn(JSON.stringify(danger.github));
+  const path = require('path');
+
   // Get the external dangerfile path from environment variable (passed via workflow input)
   // When running in Docker, the file is downloaded to runner temp directory
   let customPath = path.join("/github/workspace",process.env.EXTRA_DANGERFILE || process.env.EXTRA_DANGERFILE_INPUT);
