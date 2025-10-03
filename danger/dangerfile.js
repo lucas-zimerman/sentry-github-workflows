@@ -231,7 +231,11 @@ async function CheckFromExternalChecks() {
         await extraModule.default();
       }
     } catch (err) {
-      warn(`Could not load custom Dangerfile: ${customPath}\n${err}`);
+      if (err.message && err.message.includes('Cannot use import statement outside a module')) {
+        warn(`External dangerfile uses ES6 imports. Please convert to CommonJS syntax (require/module.exports) or use .mjs extension with proper module configuration.\nFile: ${customPath}`);
+      } else {
+        warn(`Could not load custom Dangerfile: ${customPath}\n${err}`);
+      }
     }
   }
 }
