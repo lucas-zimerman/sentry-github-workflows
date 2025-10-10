@@ -2,6 +2,27 @@
 
 ## Unreleased
 
+### Dependencies
+
+- Bump WORKFLOW-TEST-DEPENDENCY-DO-NOT-MERGE from v2.0.0 to v2.0.4 ([#2](https://github.com/lucas-zimerman/sentry-github-workflows/pull/2))
+  - [changelog](https://github.com/getsentry/sentry-cli/blob/master/CHANGELOG.md#204)
+  - [diff](https://github.com/getsentry/sentry-cli/compare/2.0.0...2.0.4)
+
+## 3.1.0
+
+### Features
+
+- Updater - Add `post-update-script` input parameter to run custom scripts after dependency updates ([#130](https://github.com/getsentry/github-workflows/pull/130), [#133](https://github.com/getsentry/github-workflows/pull/133))
+  - Scripts receive original and new version as arguments
+  - Support both bash (`.sh`) and PowerShell (`.ps1`) scripts
+  - Enables workflows like updating lock files, running code generators, or modifying configuration files
+- Updater - Add SSH key support and comprehensive authentication validation ([#134](https://github.com/getsentry/github-workflows/pull/134))
+  - Add `ssh-key` input parameter for deploy key authentication
+  - Support using both `ssh-key` (for git) and `api-token` (for GitHub API) together
+  - Add detailed token validation with actionable error messages
+  - Detect common token issues: expiration, whitespace, SSH keys in wrong input, missing scopes
+  - Validate SSH key format when provided
+
 ### Fixes
 
 - Updater - Fix boolean input handling for `changelog-entry` parameter and add input validation ([#127](https://github.com/getsentry/github-workflows/pull/127))
